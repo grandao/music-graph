@@ -2,11 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public class UIState
+{
+    public enum State { NONE, NODE_DRAG, EDGE_DRAG };
+    public State state = State.NONE;
+
+    public void SetNodeDrag()
+    {
+        state = State.NODE_DRAG;
+    }
+
+    public void SetEdgeDrag()
+    {
+        state = State.EDGE_DRAG;
+    }
+
+    public void Clear()
+    {
+        state = State.NONE;
+    }
+}
+
 public class InputManager : MonoBehaviour
 {
     public GameObject node_prefab;
+    public GameObject edge_prefab;
+
+    public GameObject dummy_node;
+    public GameObject dummy_edge;
+
     public GameObject selection;
     public GameObject drag;
+
+    public UIState ui_state = new UIState();
 
     struct TouchStart {
         public int id;
@@ -21,9 +50,14 @@ public class InputManager : MonoBehaviour
     Dictionary<int, TouchStart> touches = new Dictionary<int, TouchStart>();
     Vector3 mouse_position = new Vector3();
 
-    void Start()
+    void Awake()
     {
-        
+        dummy_node = new GameObject();
+        dummy_node.SetActive(false);
+
+        dummy_edge = Instantiate(edge_prefab);
+        dummy_edge.SetActive(false);
+        dummy_edge.GetComponent<Bezier>().dest = dummy_node;
     }
 
     void Update()
@@ -66,7 +100,7 @@ public class InputManager : MonoBehaviour
 
                 drag = selection;
 
-                OnBegin(t);
+                OnBegin(t, selection);
                 break;
             case TouchPhase.Moved:
                 if (drag != null)
@@ -83,12 +117,88 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    void OnBegin(Touch t) { }
-    void OnMove(Touch t) { }
-    void OnDrag(Touch t, GameObject obj) {
-        Vector3 p = Camera.main.ScreenPointToRay(t.position).origin;
-        p.z = 0;
-        obj.transform.position = p;
+    void OnBegin(Touch t, GameObject obj)
+    {
+        if (obj != null)
+        {
+            if (obj.name == "EdgeLink")
+            {
+                ui_state.SetEdgeDrag();
+
+                Vector3 position = Camera.main.ScreenPointToRay(t.position).origin;
+                position.z = 0;
+
+                dummy_edge.GetComponent<Bezier>().origin = obj.transform.parent.gameObject;
+                dummy_node.transform.position = position;
+                dummy_node.SetActive(true);
+                dummy_edge.SetActive(true);
+            }
+            else if (obj.name.Contains("Node")) ui_state.SetNodeDrag();
+            else ui_state.Clear();
+        }
+        else
+            ui_state.Clear();
+
+        Debug.Log(ui_state.state);
     }
-    void OnEnd(Touch t) { }
+
+    void OnMove(Touch t)
+    {
+    }
+
+    void OnDrag(Touch t, GameObject obj) {
+        Vector3 position = Camera.main.ScreenPointToRay(t.position).origin;
+        position.z = 0;
+
+        switch (ui_state.state)
+        {
+            case UIState.State.NODE_DRAG:
+                obj.transform.position = position;
+                break;
+            case UIState.State.EDGE_DRAG:
+                dummy_node.transform.position = position;
+                break;
+        }
+        
+    }
+
+    void OnEnd(Touch t)
+    {
+        switch (ui_state.state)
+        {
+            case UIState.State.NODE_DRAG:
+                break;
+            case UIState.State.EDGE_DRAG:
+                dummy_node.SetActive(false);
+                dummy_edge.SetActive(false);
+
+
+                Ray ray = Camera.main.ScreenPointToRay(t.position);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit))
+                {
+                    GameObject from = dummy_edge.GetComponent<Bezier>().origin;
+                    GameObject to = hit.transform.gameObject;
+
+                    if (from != to && to.name.Contains("Node"))
+                    {
+                        GameObject edge = Instantiate(edge_prefab, from.transform.position, Quaternion.identity);
+                        edge.GetComponent<Bezier>().origin = from;
+                        edge.GetComponent<Bezier>().dest = to;
+                    }
+                }
+                else
+                {
+                    GameObject from = dummy_edge.GetComponent<Bezier>().origin;
+                    GameObject to = Instantiate(node_prefab, dummy_node.transform.position, Quaternion.identity);
+                    GameObject edge = Instantiate(edge_prefab, from.transform.position, Quaternion.identity);
+
+                    edge.GetComponent<Bezier>().origin = from;
+                    edge.GetComponent<Bezier>().dest = to;
+                }
+
+                dummy_edge.GetComponent<Bezier>().origin = null;
+                break;
+        }
+    }
 }
