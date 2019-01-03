@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3707254342764206078}
   - component: {fileID: 3707254342764206073}
   - component: {fileID: 3707254342764206072}
+  - component: {fileID: 6214449146599264422}
   m_Layer: 0
   m_Name: Edge
   m_TagString: Untagged
@@ -188,6 +189,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb067cfa2180e0044b37d9ec2d132941, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lineRenderer: {fileID: 3707254342764206073}
+--- !u!114 &6214449146599264422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3707254342764206075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b6059d3492e765409a56bcc445dabdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   origin: {fileID: 0}
   dest: {fileID: 0}
-  lineRenderer: {fileID: 3707254342764206073}

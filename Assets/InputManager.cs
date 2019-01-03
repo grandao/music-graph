@@ -30,6 +30,7 @@ public class InputManager : MonoBehaviour
     State state = State.GAME_INPUT;
 
     Vector3 mouse_position = new Vector3();
+    bool drag = false;
     public GameObject menu;
 
     public void SetState(State s)
@@ -70,9 +71,9 @@ public class InputManager : MonoBehaviour
         {
             TouchPhase phase = TouchPhase.Canceled;
 
-            if (Input.GetMouseButtonUp(0)) phase = TouchPhase.Ended;
-            else if (Input.GetMouseButtonDown(0)) phase = TouchPhase.Began;
-            else if (mouse_position != Input.mousePosition) phase = TouchPhase.Moved;
+            if (Input.GetMouseButtonUp(0)) { phase = TouchPhase.Ended; drag = false; }
+            else if (!drag && Input.GetMouseButtonDown(0)) { phase = TouchPhase.Began; drag = true; }
+            else if (drag && mouse_position != Input.mousePosition) phase = TouchPhase.Moved;
 
             if (phase != TouchPhase.Canceled)
             {

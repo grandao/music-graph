@@ -4,10 +4,8 @@ using UnityEngine;
 
 [ExecuteInEditMode]
 [RequireComponent(typeof(LineRenderer))]
-public class Bezier : MonoBehaviour
+public class Curve : MonoBehaviour
 {
-    public GameObject origin;
-    public GameObject dest;
     public LineRenderer lineRenderer;
 
     private int layerOrder = 0;
@@ -25,8 +23,19 @@ public class Bezier : MonoBehaviour
 
     void Update()
     {
-        Vector3 p0 = origin.transform.position;
-        Vector3 p3 = dest.transform.position;
+        if (gameObject.GetComponent<Edge>() == null)
+        {
+            Debug.Log("No edge comp!");
+            return;
+        }
+
+        if (gameObject.GetComponent<Edge>().origin == null)
+        {
+            Debug.Log("No edge.origin comp!");
+            return;
+        }
+        Vector3 p0 = gameObject.GetComponent<Edge>().origin.gameObject.transform.position;
+        Vector3 p3 = gameObject.GetComponent<Edge>().dest.gameObject.transform.position;
 
         Vector3 dx = new Vector3((p3.x - p0.x) / 2, 0, 0);
         Vector3 p1 = p0 + dx;

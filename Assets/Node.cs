@@ -6,28 +6,20 @@ using UnityEngine;
 [RequireComponent(typeof(MeshRenderer))]
 public class Node : MonoBehaviour
 {
-    int note;
-    float duration;
+    static int next_id = 0;
+    public int id;
+    public int note = 0;
+    public float duration = 1;
 
+    void Awake()
+    {
+        id = next_id++;
+    }
 
 
     // Start is called before the first frame update
     void Start()
     {
-        /*
-        Mesh mesh = GetComponent<MeshFilter>().mesh;
-        Vector3[] vertices = new Vector3[4];
-
-        vertices[0] = new Vector3(-1, -1);
-        vertices[1] = new Vector3(-1, 1);
-        vertices[2] = new Vector3(1, 1);
-        vertices[3] = new Vector3(1, -1);
-
-        int[] triangles = new int[6] {0, 2, 1, 0, 3, 2};
-
-        mesh.vertices = vertices;
-        mesh.triangles = triangles;
-        */
 
     }
 

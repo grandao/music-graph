@@ -43,11 +43,17 @@ public class GameInput : MonoBehaviour
     void Awake()
     {
         dummy_node = new GameObject();
+        dummy_node.AddComponent<Node>();
         dummy_node.SetActive(false);
 
         dummy_edge = Instantiate(edge_prefab);
         dummy_edge.SetActive(false);
-        dummy_edge.GetComponent<Bezier>().dest = dummy_node;
+        dummy_edge.GetComponent<Edge>().dest = dummy_node.GetComponent<Node>();
+    }
+
+    public GameObject GetSelection()
+    {
+        return selection;
     }
 
     public void DispatchEvent(Touch t)
@@ -83,19 +89,19 @@ public class GameInput : MonoBehaviour
     {
         if (obj != null)
         {
-            if (obj.name == "EdgeLink")
+            if (obj.name.Contains("EdgeLink"))
             {
                 input_state.SetEdgeDrag();
 
                 Vector3 position = Camera.main.ScreenPointToRay(t.position).origin;
                 position.z = 0;
 
-                dummy_edge.GetComponent<Bezier>().origin = obj.transform.parent.gameObject;
+                dummy_edge.GetComponent<Edge>().origin = obj.transform.parent.GetComponent<Node>();
                 dummy_node.transform.position = position;
                 dummy_node.SetActive(true);
                 dummy_edge.SetActive(true);
             }
-            else if (obj.name.Contains("Node")) input_state.SetNodeSelect();
+            else if (isNode(obj)) input_state.SetNodeSelect();
             else input_state.Clear();
         }
         else
@@ -125,6 +131,8 @@ public class GameInput : MonoBehaviour
 
     void OnEnd(Touch t)
     {
+        //Debug.Log(input_state.state);
+
         switch (input_state.state)
         {
             case InputState.State.NODE_SELECT:
@@ -142,28 +150,46 @@ public class GameInput : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit))
                 {
-                    GameObject from = dummy_edge.GetComponent<Bezier>().origin;
+                    GameObject from = dummy_edge.GetComponent<Edge>().origin.gameObject;
                     GameObject to = hit.transform.gameObject;
 
-                    if (from != to && to.name.Contains("Node"))
+                    if (from != to && isNode(to))
                     {
                         GameObject edge = Instantiate(edge_prefab, from.transform.position, Quaternion.identity);
-                        edge.GetComponent<Bezier>().origin = from;
-                        edge.GetComponent<Bezier>().dest = to;
+                        MakeLink(from, to, edge);
                     }
                 }
                 else
                 {
-                    GameObject from = dummy_edge.GetComponent<Bezier>().origin;
+                    GameObject from = dummy_edge.GetComponent<Edge>().origin.gameObject;
                     GameObject to = Instantiate(node_prefab, dummy_node.transform.position, Quaternion.identity);
                     GameObject edge = Instantiate(edge_prefab, from.transform.position, Quaternion.identity);
 
-                    edge.GetComponent<Bezier>().origin = from;
-                    edge.GetComponent<Bezier>().dest = to;
+                    MakeLink(from, to, edge);
                 }
 
-                dummy_edge.GetComponent<Bezier>().origin = null;
+                dummy_edge.GetComponent<Edge>().origin = null;
                 break;
         }
+    }
+
+    void MakeLink(GameObject from, GameObject to, GameObject edge)
+    {
+        Edge e = edge.GetComponent<Edge>();
+        Node a = from.GetComponent<Node>();
+        Node b = to.GetComponent<Node>();
+
+        e.origin = a;
+        e.dest = b;
+    }
+
+    bool isNode(GameObject o)
+    {
+        return o.GetComponent<Node>() != null;
+    }
+
+    bool isEdge(GameObject o)
+    {
+        return o.GetComponent<Edge>() != null;
     }
 }
