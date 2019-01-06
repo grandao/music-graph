@@ -401,6 +401,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ec1a00e8f8737b4ca4dfea371c0be04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  node_prefab: {fileID: 335700668701988841, guid: 16f0841220751ce4ea4a7bb77907d718,
+    type: 3}
+  edge_prefab: {fileID: 3707254342764206075, guid: 6ad283789a7b0674ba637c21c1af0b02,
+    type: 3}
 --- !u!114 &519420036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,6 +526,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Node0
+      objectReference: {fileID: 0}
+    - target: {fileID: 335700668701988841, guid: 16f0841220751ce4ea4a7bb77907d718,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 335700668701988842, guid: 16f0841220751ce4ea4a7bb77907d718,
         type: 3}

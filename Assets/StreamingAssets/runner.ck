@@ -55,8 +55,8 @@ Keyboard kb => dac;
 kb.load(me.dir() + "piano");
 
 0 => global int play;
-global int midi[];
-global float dt;
+[80] @=> global int midi[];
+1 => global float dt;
 
 
 global Event start;
@@ -70,7 +70,7 @@ while (true) {
         0 => play;
     }
     notifier.broadcast();
-    dt::seconds => now;
+    dt::second => now;
 }
 
 

@@ -155,32 +155,18 @@ public class GameInput : MonoBehaviour
 
                     if (from != to && isNode(to))
                     {
-                        GameObject edge = Instantiate(edge_prefab, from.transform.position, Quaternion.identity);
-                        MakeLink(from, to, edge);
+                        GetComponent<GameController>().CreateEdge(from, to);
                     }
                 }
                 else
                 {
                     GameObject from = dummy_edge.GetComponent<Edge>().origin.gameObject;
-                    GameObject to = Instantiate(node_prefab, dummy_node.transform.position, Quaternion.identity);
-                    GameObject edge = Instantiate(edge_prefab, from.transform.position, Quaternion.identity);
-
-                    MakeLink(from, to, edge);
+                    GetComponent<GameController>().CreateEdge(from, dummy_node.transform.position);
                 }
 
                 dummy_edge.GetComponent<Edge>().origin = null;
                 break;
         }
-    }
-
-    void MakeLink(GameObject from, GameObject to, GameObject edge)
-    {
-        Edge e = edge.GetComponent<Edge>();
-        Node a = from.GetComponent<Node>();
-        Node b = to.GetComponent<Node>();
-
-        e.origin = a;
-        e.dest = b;
     }
 
     bool isNode(GameObject o)
