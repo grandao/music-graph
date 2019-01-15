@@ -6,8 +6,13 @@ public class GameInput : MonoBehaviour
 {
     public class InputState
     {
-        public enum State { NONE, NODE_SELECT, NODE_DRAG, EDGE_DRAG };
+        public enum State { NONE, NODE_SELECT, NODE_DRAG, EDGE_DRAG, SLIDER_DRAG };
         public State state = State.NONE;
+
+        public void SetSliderDrag()
+        {
+            state = State.SLIDER_DRAG;
+        }
 
         public void SetNodeSelect()
         {
@@ -101,6 +106,10 @@ public class GameInput : MonoBehaviour
                 dummy_node.SetActive(true);
                 dummy_edge.SetActive(true);
             }
+            else if (obj.name.Contains("TimeSlider"))
+            {
+                input_state.SetSliderDrag();
+            }
             else if (isNode(obj)) input_state.SetNodeSelect();
             else input_state.Clear();
         }
@@ -124,6 +133,9 @@ public class GameInput : MonoBehaviour
                 break;
             case InputState.State.EDGE_DRAG:
                 dummy_node.transform.position = position;
+                break;
+            case InputState.State.SLIDER_DRAG:
+                obj.GetComponent<TimeSlider>().move(t.position);
                 break;
         }
 
@@ -165,6 +177,8 @@ public class GameInput : MonoBehaviour
                 }
 
                 dummy_edge.GetComponent<Edge>().origin = null;
+                break;
+            case InputState.State.SLIDER_DRAG:
                 break;
         }
     }

@@ -172,7 +172,7 @@ public class Graph
 
 public class Scheduler
 {
-    int bpm = 60;
+    int bpm = 120;
     int measure = 4;
     int subdiv = 2;
 
@@ -237,13 +237,16 @@ public class Scheduler
         if (next == ticks)
         {
             Node n = GetNext();
-            Debug.Log(n == null ? "null node" : "good node");
+            //Debug.Log(n == null ? "null node" : "good node");
             int note = midis[n.note];
-            Debug.Log(note);
+            //Debug.Log(note);
             queue.Add(ticks, note);
-            queue.Add(ticks + 4, note + 7);
+            //queue.Add(ticks+2, note);
+            //queue.Add(ticks+4, note);
+            //queue.Add(ticks+6, note);
+            //queue.Add(ticks + 4, note + 7);
 
-            next += (int)(measure * subdiv * n.duration);
+            next += (int)(subdiv * n.duration);
         }
     }
 
