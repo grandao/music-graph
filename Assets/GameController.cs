@@ -97,6 +97,22 @@ public class GameController : MonoBehaviour
         graph.RemoveEdge(e.GetComponent<Edge>());
         Destroy(e);
     }
+
+    public void RemoveNode(GameObject n)
+    {
+        Node node = n.GetComponent<Node>();
+        for (int i = edge_list.Count - 1; i >= 0; --i)
+        {
+            var edge = edge_list[i];
+            if (edge.GetComponent<Edge>().origin == node || edge.GetComponent<Edge>().dest == node)
+            {
+                RemoveEdge(edge);
+            }
+        }
+
+        graph.RemoveNode(node);
+        Destroy(n);
+    }
 }
 
 

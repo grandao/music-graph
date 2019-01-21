@@ -178,6 +178,13 @@ public class GameInput : MonoBehaviour
                 GetComponent<InputManager>().SetState(InputManager.State.MENU_INPUT);
                 break;
             case InputState.State.NODE_DRAG:
+                //delete node dragged to border
+                Vector2 p = Camera.main.WorldToScreenPoint(selection.transform.position);
+                if (p.x < 10 || p.y < 10)
+                {
+                    GetComponent<GameController>().RemoveNode(selection);
+                    selection = null;
+                }
                 break;
             case InputState.State.EDGE_DRAG:
                 dummy_node.SetActive(false);
