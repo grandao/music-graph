@@ -6,7 +6,7 @@ public class GameInput : MonoBehaviour
 {
     public class InputState
     {
-        public enum State { NONE, NODE_SELECT, NODE_DRAG, EDGE_DRAG, SLIDER_DRAG };
+        public enum State { NONE, NODE_SELECT, NODE_DRAG, EDGE_DRAG, SLIDER_DRAG, EDGE_CUT };
         public State state = State.NONE;
 
         public void SetSliderDrag()
@@ -27,6 +27,11 @@ public class GameInput : MonoBehaviour
         public void SetEdgeDrag()
         {
             state = State.EDGE_DRAG;
+        }
+
+        public void SetEdgeCut()
+        {
+            state = State.EDGE_CUT;
         }
 
         public void Clear()
@@ -81,6 +86,8 @@ public class GameInput : MonoBehaviour
             case TouchPhase.Moved:
                 if (drag != null)
                     OnDrag(t, drag);
+                else
+                    OnMove(t);
                 break;
             case TouchPhase.Ended:
             case TouchPhase.Canceled:
@@ -139,6 +146,25 @@ public class GameInput : MonoBehaviour
                 break;
         }
 
+    }
+
+    void OnMove(Touch t)
+    {
+        //check if our move cuts an edge
+        input_state.SetEdgeCut();
+        Vector2 p0 = Camera.main.ScreenPointToRay(t.position).origin;
+        Vector2 p1 = Camera.main.ScreenPointToRay(t.position - t.deltaPosition).origin;
+
+        var edges = GetComponent<GameController>().GetEdges();
+        //Must use reverse iteration for removing elements
+        for (int i = edges.Count-1; i >= 0; --i)
+        {
+            var edge = edges[i];
+            if (edge.GetComponent<Curve>().Intersect(p0, p1))
+            {
+                GetComponent<GameController>().RemoveEdge(edge);
+            }
+        }
     }
 
     void OnEnd(Touch t)

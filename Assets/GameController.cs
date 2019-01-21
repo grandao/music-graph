@@ -10,6 +10,8 @@ public class GameController : MonoBehaviour
     public GameObject node_prefab;
     public GameObject edge_prefab;
 
+    List<GameObject> edge_list = new List<GameObject>();
+
 
     string[] scale = new string[] { "A3", "B4", "C4", "D4", "E4", "F4", "G4" };
     int[] midis = new int[] { 69, 71, 72, 74, 76, 77, 79 };
@@ -73,6 +75,8 @@ public class GameController : MonoBehaviour
 
         graph.AddEdge(e);
 
+        edge_list.Add(edge);
+
         return edge;
     }
 
@@ -80,6 +84,18 @@ public class GameController : MonoBehaviour
     {
         GameObject to = CreateNode(position);
         return CreateEdge(from, to);
+    }
+
+    public List<GameObject> GetEdges()
+    {
+        return edge_list;
+    }
+
+    public void RemoveEdge(GameObject e)
+    {
+        edge_list.Remove(e);
+        graph.RemoveEdge(e.GetComponent<Edge>());
+        Destroy(e);
     }
 }
 
