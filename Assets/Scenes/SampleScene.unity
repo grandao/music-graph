@@ -530,17 +530,17 @@ PrefabInstance:
     - target: {fileID: 335700668701988841, guid: 16f0841220751ce4ea4a7bb77907d718,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 335700668701988842, guid: 16f0841220751ce4ea4a7bb77907d718,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.04
+      value: -7.3
       objectReference: {fileID: 0}
     - target: {fileID: 335700668701988842, guid: 16f0841220751ce4ea4a7bb77907d718,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.37
+      value: 1.78
       objectReference: {fileID: 0}
     - target: {fileID: 335700668701988842, guid: 16f0841220751ce4ea4a7bb77907d718,
         type: 3}
@@ -589,6 +589,51 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16f0841220751ce4ea4a7bb77907d718, type: 3}
+--- !u!1 &613873883
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 613873885}
+  - component: {fileID: 613873884}
+  m_Layer: 0
+  m_Name: DecorationPallete
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &613873884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613873883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d96443532cb6c1445a900041790c3a13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  decoration_prefab: {fileID: 4871241769698518387, guid: 1aa26efae01f5234ab1c373f90b4549b,
+    type: 3}
+--- !u!4 &613873885
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613873883}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8.5, y: -4, z: -9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1470473196
 GameObject:
   m_ObjectHideFlags: 0

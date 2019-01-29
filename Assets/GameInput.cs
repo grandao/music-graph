@@ -6,8 +6,13 @@ public class GameInput : MonoBehaviour
 {
     public class InputState
     {
-        public enum State { NONE, NODE_SELECT, NODE_DRAG, EDGE_DRAG, SLIDER_DRAG, EDGE_CUT };
+        public enum State { NONE, NODE_SELECT, NODE_DRAG, EDGE_DRAG, SLIDER_DRAG, EDGE_CUT, DECORATION_DRAG };
         public State state = State.NONE;
+
+        public void SetDecorationDrag()
+        {
+            state = State.DECORATION_DRAG;
+        }
 
         public void SetSliderDrag()
         {
@@ -45,6 +50,7 @@ public class GameInput : MonoBehaviour
 
     GameObject dummy_node;
     GameObject dummy_edge;
+    GameObject dummy_decor;
 
     InputState input_state = new InputState();
     GameObject selection;
@@ -77,7 +83,7 @@ public class GameInput : MonoBehaviour
                     selection = hit.transform.gameObject;
                 else
                     selection = null;
-                //if (selection != null) Debug.Log(string.Format("Got {0}", selection.name));
+                //if (selection) Debug.Log(string.Format("Got {0}", selection.name));
 
                 drag = selection;
 
@@ -117,6 +123,14 @@ public class GameInput : MonoBehaviour
             {
                 input_state.SetSliderDrag();
             }
+            else if (obj.name.Contains("Decoration"))
+            {
+                input_state.SetDecorationDrag();
+                dummy_decor = Instantiate(obj);
+                dummy_decor.transform.position = obj.transform.position;
+                dummy_decor.layer = 5;//UI layer
+                obj.SetActive(false);
+            }
             else if (isNode(obj)) input_state.SetNodeSelect();
             else input_state.Clear();
         }
@@ -144,6 +158,9 @@ public class GameInput : MonoBehaviour
             case InputState.State.SLIDER_DRAG:
                 obj.GetComponent<TimeSlider>().move(t.position);
                 break;
+            case InputState.State.DECORATION_DRAG:
+                dummy_decor.transform.position = position;
+                break;
         }
 
     }
@@ -170,6 +187,8 @@ public class GameInput : MonoBehaviour
     void OnEnd(Touch t)
     {
         //Debug.Log(input_state.state);
+        Ray ray = Camera.main.ScreenPointToRay(t.position);
+        RaycastHit hit;
 
         switch (input_state.state)
         {
@@ -190,9 +209,6 @@ public class GameInput : MonoBehaviour
                 dummy_node.SetActive(false);
                 dummy_edge.SetActive(false);
 
-
-                Ray ray = Camera.main.ScreenPointToRay(t.position);
-                RaycastHit hit;
                 if (Physics.Raycast(ray, out hit))
                 {
                     GameObject from = dummy_edge.GetComponent<Edge>().origin.gameObject;
@@ -212,6 +228,26 @@ public class GameInput : MonoBehaviour
                 dummy_edge.GetComponent<Edge>().origin = null;
                 break;
             case InputState.State.SLIDER_DRAG:
+                break;
+            case InputState.State.DECORATION_DRAG:
+                //Needed to avoid raycast on itself
+                dummy_decor.SetActive(false);
+                Destroy(dummy_decor);
+
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    GameObject o = hit.transform.gameObject;
+                    var socket = o.GetComponent<DecorationSocket>();
+                    var decor = selection.GetComponent<Decoration>();
+                    if (socket != null && socket.type == decor.type)
+                    {
+                        socket.id = decor.id;
+                        Debug.Log("Decoration placed!");
+                    }
+                }
+                
+                selection.SetActive(true);
                 break;
         }
     }
