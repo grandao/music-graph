@@ -206,7 +206,7 @@ public class Scheduler
 {
     int bpm = 120;
     int measure = 4;
-    int subdiv = 2;
+    int subdiv = 12;
 
     int ticks = 0;
     int next = 0;
@@ -237,7 +237,7 @@ public class Scheduler
 
     public float dt
     {
-        get { return 1.0f / (bpm * measure * subdiv); }
+        get { return 60.0f / (bpm * measure * subdiv); }
     }
 
 

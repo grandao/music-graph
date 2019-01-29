@@ -56,7 +56,7 @@ kb.load(me.dir() + "piano");
 
 0 => global int play;
 [80] @=> global int midi[];
-1 => global float dt;
+global float dt;
 
 
 global Event start;
