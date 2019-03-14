@@ -10,12 +10,12 @@ public class DecorationPallete : MonoBehaviour
     void Create()
     {
         Vector3 pos = Vector3.zero;
-        for (int i = 0; i < 9; ++i)
+        for (int i = 0; i < 10; ++i)
         {
             GameObject d = Instantiate(decoration_prefab, Vector3.zero, Quaternion.identity, gameObject.transform);
             d.GetComponent<Decoration>().id = i;
             d.transform.localPosition = pos;
-            pos.x += 2;
+            pos.x += 2 * 0.8f;
         }
     }
     void Start()

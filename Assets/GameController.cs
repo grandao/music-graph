@@ -204,12 +204,14 @@ public class Graph
 
 public class Scheduler
 {
-    int bpm = 120;
+    int bpm = 60;
     int measure = 4;
-    int subdiv = 12;
+    int subdiv = 24;
 
     int ticks = 0;
     int next = 0;
+
+    DecorationStyleScheduler decor_sched = new DecorationStyleScheduler();
 
     ChuckSubInstance instance;
     Chuck.VoidCallback callback;
@@ -251,6 +253,7 @@ public class Scheduler
         instance.StartListeningForChuckEvent("notifier", callback);
 
         instance.SetFloat("dt", dt);
+        decor_sched.Init();
     }
 
     ~Scheduler()
@@ -269,6 +272,7 @@ public class Scheduler
         if (next == ticks)
         {
             Node n = GetNext();
+#if false
             //Debug.Log(n == null ? "null node" : "good node");
             int note = midis[n.note];
             //Debug.Log(note);
@@ -277,7 +281,9 @@ public class Scheduler
             //queue.Add(ticks+4, note);
             //queue.Add(ticks+6, note);
             //queue.Add(ticks + 4, note + 7);
-
+#endif
+            decor_sched.Schedule(n, subdiv, (int time, int note) => queue.Add(ticks + time, note));
+            //decor_sched.Schedule(n, subdiv, (int time, int note) => Debug.Log(string.Format("Note {0} at time {1}", note, time)));
             next += (int)(subdiv * n.duration);
         }
     }

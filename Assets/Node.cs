@@ -11,9 +11,13 @@ public class Node : MonoBehaviour
     public int note = 0;
     public float duration = 1;
 
+    //DecorationSocket reference for access outside the main thread
+    public DecorationSocket socket;
+
     void Awake()
     {
         id = next_id++;
+        socket = gameObject.GetComponentInChildren<DecorationSocket>();
     }
 
 
