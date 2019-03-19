@@ -113,6 +113,45 @@ public class GameController : MonoBehaviour
         graph.RemoveNode(node);
         Destroy(n);
     }
+
+    public bool Save(string name)
+    {
+        Debug.Log("Saving to {name}");
+        return GameSerializer.Save(name, graph.GetNodeList(), graph.GetEdgeList());
+    }
+
+    public bool Load(string name)
+    {
+        Debug.Log("Loading to {name}");
+
+        Clear();
+
+        bool res = GameSerializer.Load(name, (Vector3 pos) => CreateNode(pos), 
+            (GameObject f, GameObject t) => CreateEdge(f, t));
+        current = graph.GetRoot();
+
+        Start();
+
+        return res;
+    }
+
+    public void Clear()
+    {
+        scheduler.Clear();
+        var nodes = graph.GetNodeList();
+
+        foreach (var n in nodes)
+        {
+            Destroy(n.Value.gameObject);
+        }
+
+        foreach (var e in edge_list)
+        {
+            Destroy(e);
+        }
+        graph.Clear();
+        edge_list.Clear();
+    }
 }
 
 
@@ -146,6 +185,9 @@ public class Graph
         Debug.Log(String.Format("Graph does not contains node {0}", id));
         return root;
     }
+
+    public Dictionary<int, Node> GetNodeList() { return nodes; }
+    public Dictionary<int, SortedSet<int>> GetEdgeList() { return edges; }
 
     public void AddNode(Node n)
     {
@@ -211,7 +253,7 @@ public class Scheduler
     int ticks = 0;
     int next = 0;
 
-    DecorationStyleScheduler decor_sched = new DecorationStyleScheduler();
+    DecorationStyleScheduler decor_sched;
 
     ChuckSubInstance instance;
     Chuck.VoidCallback callback;
@@ -230,7 +272,7 @@ public class Scheduler
         #endregion
     }
     // <tick, midi> queue
-    SortedList<int, int> queue = new SortedList<int, int>(new DupComparer<int>());
+    SortedList<int, int> queue;
 
     public delegate Node NextAction();
     NextAction GetNext;
@@ -246,24 +288,53 @@ public class Scheduler
     public Scheduler(ChuckSubInstance inst)
     {
         instance = inst;
+        Init();
+    }
+
+    public bool Init()
+    {
         if (!instance.RunFile("runner.ck"))
+        {
             Debug.Log("Could not load runner.ck!");
+            return false;
+        }
 
         callback = instance.CreateVoidCallback(Tick);
-        instance.StartListeningForChuckEvent("notifier", callback);
+        //instance.StartListeningForChuckEvent("notifier", callback);
 
         instance.SetFloat("dt", dt);
+        decor_sched = new DecorationStyleScheduler();
         decor_sched.Init();
+        queue = new SortedList<int, int>(new DupComparer<int>());
+        return true;
+    }
+
+    public void Clear()
+    {
+        StopTick();
+    }
+
+    //Start event tick
+    public void StartTick()
+    {
+        instance.StartListeningForChuckEvent("notifier", callback);
+    }
+
+    //Stop event tick
+    public void StopTick()
+    {
+        instance.StopListeningForChuckEvent("notifier", callback);
     }
 
     ~Scheduler()
     {
-        instance.StopListeningForChuckEvent("notifier", callback);
+        Clear();
     }
 
     public void Start(NextAction fn)
     {
         GetNext = fn;
+        StartTick();
         instance.BroadcastEvent("start");
     }
 
@@ -272,18 +343,7 @@ public class Scheduler
         if (next == ticks)
         {
             Node n = GetNext();
-#if false
-            //Debug.Log(n == null ? "null node" : "good node");
-            int note = midis[n.note];
-            //Debug.Log(note);
-            queue.Add(ticks, note);
-            //queue.Add(ticks+2, note);
-            //queue.Add(ticks+4, note);
-            //queue.Add(ticks+6, note);
-            //queue.Add(ticks + 4, note + 7);
-#endif
             decor_sched.Schedule(n, subdiv, (int time, int note) => queue.Add(ticks + time, note));
-            //decor_sched.Schedule(n, subdiv, (int time, int note) => Debug.Log(string.Format("Note {0} at time {1}", note, time)));
             next += (int)(subdiv * n.duration);
         }
     }

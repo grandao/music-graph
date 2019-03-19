@@ -156,7 +156,7 @@ public class GameInput : MonoBehaviour
                 dummy_node.transform.position = position;
                 break;
             case InputState.State.SLIDER_DRAG:
-                obj.GetComponent<TimeSlider>().move(t.position);
+                obj.GetComponent<TimeSlider>().Move(t.position);
                 break;
             case InputState.State.DECORATION_DRAG:
                 dummy_decor.transform.position = position;
