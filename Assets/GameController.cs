@@ -152,6 +152,11 @@ public class GameController : MonoBehaviour
         graph.Clear();
         edge_list.Clear();
     }
+
+    public GameObject GetRootNode()
+    {
+        return graph.GetRoot().gameObject;
+    }
 }
 
 

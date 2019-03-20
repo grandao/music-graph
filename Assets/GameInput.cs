@@ -198,11 +198,17 @@ public class GameInput : MonoBehaviour
                 break;
             case InputState.State.NODE_DRAG:
                 //delete node dragged to border
-                Vector2 p = Camera.main.WorldToScreenPoint(selection.transform.position);
-                if (p.x < 10 || p.y < 10)
+                Vector3 pos = ClampPosition(selection.transform.position);
+
+                bool is_root = (selection == GetComponent<GameController>().GetRootNode());
+                bool drag_to_border = (selection.transform.position - pos).sqrMagnitude > 1e-3;
+                if (drag_to_border && !is_root)
                 {
                     GetComponent<GameController>().RemoveNode(selection);
                     selection = null;
+                } else
+                {
+                    selection.transform.position = pos;
                 }
                 break;
             case InputState.State.EDGE_DRAG:
@@ -260,5 +266,27 @@ public class GameInput : MonoBehaviour
     bool isEdge(GameObject o)
     {
         return o.GetComponent<Edge>() != null;
+    }
+
+    //Dont let position go outside viewport
+    Vector3 ClampPosition(Vector3 pos)
+    {
+        float border = 15;
+        Vector2 p = Camera.main.WorldToScreenPoint(pos);
+        p.x = p.x < border ? border : p.x;
+        p.y = p.y < border ? border : p.y;
+
+        float w = Camera.main.pixelWidth;
+        float h = Camera.main.pixelHeight;
+
+        p.x = p.x > (w - border) ? (w - border) : p.x;
+        p.y = p.y > (h - border) ? (h - border) : p.y;
+
+        Ray ray = Camera.main.ScreenPointToRay(p);
+
+        Vector3 ret = ray.origin;
+        ret.z = pos.z;
+
+        return ret;
     }
 }
