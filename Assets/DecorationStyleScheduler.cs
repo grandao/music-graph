@@ -135,7 +135,7 @@ public class DecorationStyleScheduler
         int next = (int)(node.duration * subdiv);
         int root = midis[node.note];
 
-        int id = node.socket.id;
+        int id = node.socket.GetId();
         if (id < 0 || id > 10) id = 0;
 
         foreach (var note in styles[id])

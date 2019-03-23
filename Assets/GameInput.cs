@@ -126,10 +126,11 @@ public class GameInput : MonoBehaviour
             else if (obj.name.Contains("Decoration"))
             {
                 input_state.SetDecorationDrag();
-                dummy_decor = Instantiate(obj);
+                Decoration dec = obj.GetComponent<Decoration>();
+                dummy_decor = DecorationInstancer.Create(dec.type, dec.id);
                 dummy_decor.transform.position = obj.transform.position;
                 dummy_decor.layer = 5;//UI layer
-                obj.SetActive(false);
+                //obj.SetActive(false);
             }
             else if (isNode(obj)) input_state.SetNodeSelect();
             else input_state.Clear();
@@ -238,22 +239,23 @@ public class GameInput : MonoBehaviour
             case InputState.State.DECORATION_DRAG:
                 //Needed to avoid raycast on itself
                 dummy_decor.SetActive(false);
-                Destroy(dummy_decor);
-
 
                 if (Physics.Raycast(ray, out hit))
                 {
                     GameObject o = hit.transform.gameObject;
                     var socket = o.GetComponent<DecorationSocket>();
-                    var decor = selection.GetComponent<Decoration>();
-                    if (socket != null && socket.type == decor.type)
+                    var decor = dummy_decor.GetComponent<Decoration>();
+                    if (socket != null)
                     {
-                        socket.id = decor.id;
-                        Debug.Log("Decoration placed!");
+                        if (socket.Set(decor))
+                        {
+                            dummy_decor.SetActive(true);
+                            Debug.Log("Decoration placed!");
+                        }
                     }
                 }
-                
-                selection.SetActive(true);
+
+                //selection.SetActive(true);
                 break;
         }
     }

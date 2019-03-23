@@ -24,7 +24,7 @@ public class GameSerializer
 
             writer.WriteStartElement("decoration");
             writer.WriteAttributeString("type", e.Value.socket.type.ToString());
-            writer.WriteAttributeString("id", e.Value.socket.id.ToString());
+            writer.WriteAttributeString("id", e.Value.socket.GetId().ToString());
             writer.WriteEndElement();
 
             writer.WriteEndElement();
@@ -101,7 +101,7 @@ public class GameSerializer
                                 string type = reader.GetAttribute("type");
                                 Node n = current.GetComponent<Node>();
                                 n.socket.type = (Decoration.DecorationType)System.Enum.Parse(typeof(Decoration.DecorationType), type);
-                                n.socket.id = id;
+                                n.socket.Set(id);
                             }
                             break;
                     }

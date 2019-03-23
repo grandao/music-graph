@@ -12,8 +12,8 @@ public class DecorationPallete : MonoBehaviour
         Vector3 pos = Vector3.zero;
         for (int i = 0; i < 10; ++i)
         {
-            GameObject d = Instantiate(decoration_prefab, Vector3.zero, Quaternion.identity, gameObject.transform);
-            d.GetComponent<Decoration>().id = i;
+            GameObject d = DecorationInstancer.Create(Decoration.DecorationType.NODE_STYLE, i);
+            d.transform.parent = gameObject.transform;
             d.transform.localPosition = pos;
             pos.x += 2 * 0.8f;
         }
@@ -28,4 +28,6 @@ public class DecorationPallete : MonoBehaviour
     {
         
     }
+
+    
 }
