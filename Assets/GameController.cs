@@ -21,8 +21,17 @@ public class GameController : MonoBehaviour
     Node current;
 
 
+    static GameController instance;
+
+    public static GameController GetInstance()
+    {
+        return instance;
+    }
+
+
     private void Awake()
     {
+        instance = this;
         graph = new Graph();
         scheduler = new Scheduler(GetComponent<ChuckSubInstance>());
         current = CreateNode(new Vector3(-2, 2, 0)).GetComponent<Node>();
@@ -157,6 +166,11 @@ public class GameController : MonoBehaviour
     {
         return graph.GetRoot().gameObject;
     }
+
+    public void SetBPM(int bpm)
+    {
+        scheduler.UpdateBPM(bpm);
+    }
 }
 
 
@@ -287,6 +301,12 @@ public class Scheduler
     public float dt
     {
         get { return 60.0f / (bpm * measure * subdiv); }
+    }
+
+    public void UpdateBPM(int new_bpm)
+    {
+        bpm = new_bpm;
+        instance.SetFloat("dt", dt);
     }
 
 

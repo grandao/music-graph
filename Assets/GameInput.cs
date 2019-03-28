@@ -132,6 +132,10 @@ public class GameInput : MonoBehaviour
                 dummy_decor.layer = 5;//UI layer
                 //obj.SetActive(false);
             }
+            else if (obj.name.Contains("BPM"))
+            {
+                obj.GetComponent<BpmController>().Click();
+            }
             else if (isNode(obj)) input_state.SetNodeSelect();
             else input_state.Clear();
         }
