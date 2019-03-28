@@ -3,23 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-[RequireComponent(typeof(LineRenderer))]
+[RequireComponent(typeof(MeshFilter))]
 public class Curve : MonoBehaviour
 {
-    public LineRenderer lineRenderer;
-
-    private int layerOrder = 0;
-    private int SEGMENT_COUNT = 50;
     Vector3 p0 = Vector3.zero;
     Vector3 p3 = Vector3.zero;
 
+    private void Awake()
+    {
+        //CreateMesh();
+    }
+
     void Start()
     {
-        if (!lineRenderer)
-        {
-            lineRenderer = GetComponent<LineRenderer>();
-        }
-        lineRenderer.sortingLayerID = layerOrder;
+
     }
 
     void Update()
@@ -43,36 +40,52 @@ public class Curve : MonoBehaviour
         Vector3 p2 = p3 - dx;
 
         //render lines instead of bezier
-#if false
-        DrawCurve(p0, p1, p2, p3);
-#else
-        DrawLine(p0, p3);
-#endif
+        UpdateTransform(p0, p3);
     }
 
-    void DrawCurve(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3)
+    void UpdateTransform(Vector3 p0, Vector3 p1)
     {
-        lineRenderer.positionCount = SEGMENT_COUNT + 1;
-        Vector3 u3, u2, u1, u0;
-        //power basis
-        u3 = -p0 + 3 * p1 - 3 * p2 + p3;
-        u2 = 3 * p0 - 6 * p1 + 3 * p2;
-        u1 = -3 * p0 + 3 * p1;
-        u0 = p0;
+        Vector2 a = p0;
+        Vector2 b = p1;
+        Vector2 d = b - a;
+        float scale = d.magnitude;
 
-        for (int i = 0; i <= SEGMENT_COUNT; i++)
-        {
-            float t = i / (float)SEGMENT_COUNT;
-            Vector3 p = u0 + t * (u1 + t * (u2 + t * u3)); 
-            lineRenderer.SetPosition(i, p);
-        }
+        float c = d.normalized.x;
+        float s = d.normalized.y;
+
+        float theta = Mathf.Atan2(s, c) * 180.0f / Mathf.PI;
+
+        var rot = Quaternion.Euler(0, 0, theta + 180);
+
+        p0.z += 1;
+        transform.position = p0;
+        transform.rotation = rot;
+        transform.localScale = new Vector3(scale * 100, 15, 25);
     }
 
-    void DrawLine(Vector3 p0, Vector3 p1)
+    void CreateMesh()
     {
-        lineRenderer.positionCount = 2;
-        lineRenderer.SetPosition(0, p0);
-        lineRenderer.SetPosition(1, p1);
+        var mesh = new Mesh();
+
+        float c30 = 0.866f;
+        float s30 = 0.5f;
+        Vector3[] vertices = new Vector3[4];
+        vertices[0] = new Vector3(0, 0, 1);
+        vertices[1] = new Vector3(0, c30, -s30);
+        vertices[2] = new Vector3(0, -c30, -s30);
+        vertices[3] = new Vector3(1, 0, 0);
+
+
+        int[] indices = {
+            0,2,1,
+            0,3,2,
+            0,1,3,
+            1,2,3
+        };
+
+        mesh.vertices = vertices;
+        mesh.triangles = indices;
+        GetComponent<MeshFilter>().mesh = mesh;
     }
 
     //it seems unity does not implement cross/det for Vector2
