@@ -31,6 +31,7 @@ public class DecorationPallete : MonoBehaviour
             GameObject d = DecorationInstancer.Create(Decoration.DecorationType.NODE_STYLE, i);
             d.transform.parent = gameObject.transform;
             d.transform.localPosition = new Vector3(pos.x, ((i & 1) == 0) ? pos.y : (pos.y + dy), pos.z);
+            d.layer = gameObject.layer;
             pos.x += dx;
         }
     }

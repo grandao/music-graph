@@ -3,27 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class UIState
-{
-    public enum State { NONE, NODE_DRAG, EDGE_DRAG };
-    public State state = State.NONE;
-
-    public void SetNodeDrag()
-    {
-        state = State.NODE_DRAG;
-    }
-
-    public void SetEdgeDrag()
-    {
-        state = State.EDGE_DRAG;
-    }
-
-    public void Clear()
-    {
-        state = State.NONE;
-    }
-}
-
 public class InputManager : MonoBehaviour
 {
     public enum State { GAME_INPUT, MENU_INPUT }

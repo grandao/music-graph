@@ -12,6 +12,7 @@ public class GameInput : MonoBehaviour
         public void SetDecorationDrag()
         {
             state = State.DECORATION_DRAG;
+            EffectController.GetInstance().OnDecorationDrag();
         }
 
         public void SetSliderDrag()
@@ -42,6 +43,7 @@ public class GameInput : MonoBehaviour
         public void Clear()
         {
             state = State.NONE;
+            EffectController.GetInstance().Clear();
         }
     }
 
@@ -262,6 +264,7 @@ public class GameInput : MonoBehaviour
                 //selection.SetActive(true);
                 break;
         }
+        input_state.Clear();
     }
 
     bool isNode(GameObject o)

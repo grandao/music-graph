@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 2700776879062009249}
   - component: {fileID: 5528287149503703252}
   - component: {fileID: 8005464100473701946}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Slot2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
