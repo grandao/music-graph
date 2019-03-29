@@ -14,6 +14,13 @@ public class SliderMenu : MonoBehaviour
 
     Vector2 dp = Vector2.zero;
 
+    void SetLayer(int layer, GameObject obj)
+    {
+        obj.layer = layer;
+        foreach (Transform child in obj.GetComponentsInChildren<Transform>(true))
+            child.gameObject.layer = layer;
+    }
+
 
     void Awake()
     {
@@ -22,9 +29,9 @@ public class SliderMenu : MonoBehaviour
         {
             buttons[i] = Instantiate(button_prefab, Vector3.zero, Quaternion.identity);
             buttons[i].transform.parent = gameObject.transform;
-            buttons[i].layer = 5;
-
+            SetLayer(gameObject.layer, buttons[i]);
             buttons[i].GetComponentInChildren<TMPro.TextMeshPro>().text = labels[i];
+
         }
     }
 
@@ -76,7 +83,7 @@ public class SliderMenu : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(p);
         RaycastHit hit;
-        int layer_mask = LayerMask.GetMask("UI");
+        int layer_mask = LayerMask.GetMask(LayerMask.LayerToName(gameObject.layer));
 
         ray.origin -= 100 * ray.direction;
 
