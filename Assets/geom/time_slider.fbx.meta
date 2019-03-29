@@ -1,14 +1,14 @@
 fileFormatVersion: 2
-guid: d26ab937af7c521449f072842c42ecc4
+guid: bd956a05c0241074297fd67f6d28b68c
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: No Name
+    2100000: Material
     2300000: //RootNode
     3300000: //RootNode
-    4300000: arrow
+    4300000: slider-control
   externalObjects: {}
   materials:
     importMaterials: 1
