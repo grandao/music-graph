@@ -4,10 +4,49 @@ using UnityEngine;
 
 using UnityEngine.Rendering.PostProcessing;
 
+
+
+
 public class EffectController : MonoBehaviour
 {
     public GameObject main_volume;
     static EffectController instance;
+
+    public class AnimValue
+    {
+        public float value;
+        float from;
+        float to;
+
+        float time;
+        float total;
+
+        public AnimValue(float from, float to, float total)
+        {
+            this.from = from;
+            this.to = to;
+            this.time = 0;
+            this.total = total;
+            value = from;
+        }
+
+        public void Update(float dt)
+        {
+            time += dt;
+            time = time > total ? total : time;
+
+            float t = time / total;
+            value = from * (1 - t) + to * t;
+        }
+
+        public bool IsDone()
+        {
+            return time >= total;
+        }
+    }
+
+    AnimValue transition;
+    DepthOfField parameters;
 
     public static EffectController GetInstance()
     {
@@ -17,25 +56,30 @@ public class EffectController : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        var vol = main_volume.GetComponent<PostProcessVolume>();
+        parameters = vol.profile.GetSetting<DepthOfField>();
     }
 
     private void Update()
     {
-        
+        if (transition != null)
+        {
+            transition.Update(Time.deltaTime);
+            parameters.focalLength.value = transition.value;
+            if (transition.IsDone())
+                transition = null;
+            
+        }
     }
 
     public void OnDecorationDrag()
     {
-        var vol = main_volume.GetComponent<PostProcessVolume>();
-        var conf = vol.profile.GetSetting<DepthOfField>();
-        conf.focalLength.value = 64;
+        transition = new AnimValue(parameters.focalLength.value, 64, 0.3f);
     }
 
     public void Clear()
     {
-        var vol = main_volume.GetComponent<PostProcessVolume>();
-        var conf = vol.profile.GetSetting<DepthOfField>();
-        conf.focalLength.value = 1;
+        transition = new AnimValue(parameters.focalLength.value, 1, 0.3f);
     }
 
 }
