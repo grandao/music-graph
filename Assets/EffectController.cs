@@ -79,7 +79,7 @@ public class EffectController : MonoBehaviour
 
     public void Clear()
     {
-        transition = new AnimValue(parameters.focalLength.value, 1, 0.3f);
+        transition = new AnimValue(parameters.focalLength.value, 1, 0.15f);
     }
 
 }
