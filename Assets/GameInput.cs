@@ -257,8 +257,18 @@ public class GameInput : MonoBehaviour
                         {
                             dummy_decor.SetActive(true);
                             Debug.Log("Decoration placed!");
+                        } else
+                        {
+                            Destroy(dummy_decor);
                         }
                     }
+                    else
+                    {
+                        Destroy(dummy_decor);
+                    }
+                } else
+                {
+                    Destroy(dummy_decor);
                 }
 
                 //selection.SetActive(true);
