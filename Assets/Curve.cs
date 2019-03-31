@@ -77,15 +77,9 @@ public class Curve : MonoBehaviour
 
             for (int i = 0; i < count; ++i)
             {
-                //Vector2 pos =  gameObject.transform.TransformPoint(particles[i].position) - p1;
-                Vector2 pos = particles[i].position - p1;
-                //particles crossed bounding plane
-                if ((pos.x * u + pos.y * v) < 0)
-                {
+                //particle is in local space which points towards +z
+                if (particles[i].position.z > scale)
                     particles[i].lifetime = 0;
-                    Debug.Log("Killing particle!");
-                    //particles[i].velocity = Vector3.zero;
-                }
             }
 
             system.SetParticles(particles, count);
