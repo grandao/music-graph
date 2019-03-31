@@ -223,6 +223,11 @@ PrefabInstance:
       propertyPath: ShapeModule.radius.value
       value: 0.05
       objectReference: {fileID: 0}
+    - target: {fileID: 5355474149655305280, guid: 259ccf0a60193044da6146a58302967a,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 259ccf0a60193044da6146a58302967a, type: 3}
 --- !u!4 &2360097890800269659 stripped

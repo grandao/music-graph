@@ -6,13 +6,15 @@ using UnityEngine;
 public class Curve : MonoBehaviour
 {
     Vector3 p0 = Vector3.zero;
-    Vector3 p3 = Vector3.zero;
+    Vector3 p1 = Vector3.zero;
 
     ParticleSystem system;
+    ParticleSystem.Particle[] particles;
 
     private void Awake()
     {
         system = gameObject.GetComponentInChildren<ParticleSystem>();
+        particles = new ParticleSystem.Particle[system.maxParticles];
     }
 
     void Start()
@@ -33,15 +35,10 @@ public class Curve : MonoBehaviour
             Debug.Log("No edge.origin comp!");
             return;
         }
-        p0 = gameObject.GetComponent<Edge>().origin.gameObject.transform.position;
-        p3 = gameObject.GetComponent<Edge>().dest.gameObject.transform.position;
+        var p0 = gameObject.GetComponent<Edge>().origin.gameObject.transform.position;
+        var p1 = gameObject.GetComponent<Edge>().dest.gameObject.transform.position;
 
-        Vector3 dx = new Vector3((p3.x - p0.x) / 2, 0, 0);
-        Vector3 p1 = p0 + dx;
-        Vector3 p2 = p3 - dx;
-
-        //render lines instead of bezier
-        UpdateTransform(p0, p3);
+        UpdateTransform(p0, p1);
     }
 
     void UpdateTransform(Vector3 p0, Vector3 p1)
@@ -64,6 +61,36 @@ public class Curve : MonoBehaviour
         //transform.localScale = new Vector3(scale * 100, 15, 25);
         system.startLifetime = scale / system.startSpeed;
 
+        Vector2 d0 = this.p0 - p0;
+        Vector2 d1 = this.p1 - p1;
+
+        //position changed, kill particles outside range
+        if (d0.sqrMagnitude > 1e-5 || d1.sqrMagnitude > 1e-5)
+        {
+            this.p0 = p0;
+            this.p1 = p1;
+
+            float u = (p0 - p1).x;
+            float v = (p0 - p1).y;
+            float w = -u * p1.x - v * p1.y;
+            int count = system.GetParticles(particles);
+
+            for (int i = 0; i < count; ++i)
+            {
+                //Vector2 pos =  gameObject.transform.TransformPoint(particles[i].position) - p1;
+                Vector2 pos = particles[i].position - p1;
+                //particles crossed bounding plane
+                if ((pos.x * u + pos.y * v) < 0)
+                {
+                    particles[i].lifetime = 0;
+                    Debug.Log("Killing particle!");
+                    //particles[i].velocity = Vector3.zero;
+                }
+            }
+
+            system.SetParticles(particles, count);
+        }
+
     }
 
 
@@ -77,7 +104,7 @@ public class Curve : MonoBehaviour
     public bool Intersect(Vector2 pa0, Vector2 pa1)
     {
         Vector2 pb0 = p0;
-        Vector2 pb1 = p3;
+        Vector2 pb1 = p1;
 
         Vector2 u, v;
         u = pa1 - pa0;
