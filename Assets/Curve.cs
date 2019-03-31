@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-[RequireComponent(typeof(MeshFilter))]
 public class Curve : MonoBehaviour
 {
     Vector3 p0 = Vector3.zero;
     Vector3 p3 = Vector3.zero;
 
+    ParticleSystem system;
+
     private void Awake()
     {
-        //CreateMesh();
+        system = gameObject.GetComponentInChildren<ParticleSystem>();
     }
 
     void Start()
@@ -60,33 +61,11 @@ public class Curve : MonoBehaviour
         p0.z += 1;
         transform.position = p0;
         transform.rotation = rot;
-        transform.localScale = new Vector3(scale * 100, 15, 25);
+        //transform.localScale = new Vector3(scale * 100, 15, 25);
+        system.startLifetime = scale / system.startSpeed;
+
     }
 
-    void CreateMesh()
-    {
-        var mesh = new Mesh();
-
-        float c30 = 0.866f;
-        float s30 = 0.5f;
-        Vector3[] vertices = new Vector3[4];
-        vertices[0] = new Vector3(0, 0, 1);
-        vertices[1] = new Vector3(0, c30, -s30);
-        vertices[2] = new Vector3(0, -c30, -s30);
-        vertices[3] = new Vector3(1, 0, 0);
-
-
-        int[] indices = {
-            0,2,1,
-            0,3,2,
-            0,1,3,
-            1,2,3
-        };
-
-        mesh.vertices = vertices;
-        mesh.triangles = indices;
-        GetComponent<MeshFilter>().mesh = mesh;
-    }
 
     //it seems unity does not implement cross/det for Vector2
     static float cross(Vector2 a, Vector2 b)
