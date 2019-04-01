@@ -161,6 +161,7 @@ public class GameInput : MonoBehaviour
                 break;
             case InputState.State.EDGE_DRAG:
                 dummy_node.transform.position = position;
+                obj.GetComponent<ArrowMove>().MoveTo(position);
                 break;
             case InputState.State.SLIDER_DRAG:
                 obj.GetComponent<TimeSlider>().Move(t.position);
@@ -222,6 +223,10 @@ public class GameInput : MonoBehaviour
                 dummy_node.SetActive(false);
                 dummy_edge.SetActive(false);
 
+                // avoid raycast hit itself
+                selection.GetComponent<ArrowMove>().gameObject.SetActive(false);
+                
+
                 if (Physics.Raycast(ray, out hit))
                 {
                     GameObject from = dummy_edge.GetComponent<Edge>().origin.gameObject;
@@ -238,6 +243,8 @@ public class GameInput : MonoBehaviour
                     GetComponent<GameController>().CreateEdge(from, dummy_node.transform.position);
                 }
 
+                selection.GetComponent<ArrowMove>().MoveToOrigin();
+                selection.GetComponent<ArrowMove>().gameObject.SetActive(true);
                 dummy_edge.GetComponent<Edge>().origin = null;
                 break;
             case InputState.State.SLIDER_DRAG:

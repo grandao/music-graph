@@ -738,6 +738,7 @@ GameObject:
   - component: {fileID: 1696442060496653974}
   - component: {fileID: 4377909802728893416}
   - component: {fileID: 8816103905619705321}
+  - component: {fileID: 2543066383489708532}
   m_Layer: 0
   m_Name: EdgeLink
   m_TagString: Untagged
@@ -817,3 +818,15 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.012
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2543066383489708532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7545893098903859821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33a7255099d41b14194ea0c798f786df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
