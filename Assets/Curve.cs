@@ -15,6 +15,12 @@ public class Curve : MonoBehaviour
     {
         system = gameObject.GetComponentInChildren<ParticleSystem>();
         particles = new ParticleSystem.Particle[system.maxParticles];
+
+        var gradient = GradientPallete.GetCold();
+        var cm = system.colorOverLifetime;
+        cm.color = gradient;
+        var tcm = system.trails;
+        tcm.colorOverTrail = gradient;
     }
 
     void Start()
