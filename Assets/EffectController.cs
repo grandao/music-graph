@@ -10,6 +10,9 @@ using UnityEngine.Rendering.PostProcessing;
 public class EffectController : MonoBehaviour
 {
     public GameObject main_volume;
+    public GameObject deco_volume;
+    public GameObject menu_volume;
+
     static EffectController instance;
 
     public class AnimValue
@@ -47,6 +50,8 @@ public class EffectController : MonoBehaviour
 
     AnimValue transition;
     DepthOfField parameters;
+    Bloom menu_bloom;
+    DepthOfField deco_blur;
 
     public static EffectController GetInstance()
     {
@@ -58,6 +63,12 @@ public class EffectController : MonoBehaviour
         instance = this;
         var vol = main_volume.GetComponent<PostProcessVolume>();
         parameters = vol.profile.GetSetting<DepthOfField>();
+
+        var mvol = menu_volume.GetComponent<PostProcessVolume>();
+        menu_bloom = mvol.profile.GetSetting<Bloom>();
+
+        var dvol = deco_volume.GetComponent<PostProcessVolume>();
+        deco_blur = dvol.profile.GetSetting<DepthOfField>();
     }
 
     private void Update()
@@ -77,9 +88,17 @@ public class EffectController : MonoBehaviour
         transition = new AnimValue(parameters.focalLength.value, 64, 0.3f);
     }
 
+    public void OnEnterMenu()
+    {
+        menu_bloom.active = true;
+        deco_blur.active = true;
+    }
+
     public void Clear()
     {
         transition = new AnimValue(parameters.focalLength.value, 1, 0.15f);
+        menu_bloom.active = false;
+        deco_blur.active = false;
     }
 
 }

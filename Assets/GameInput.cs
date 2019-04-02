@@ -12,7 +12,6 @@ public class GameInput : MonoBehaviour
         public void SetDecorationDrag()
         {
             state = State.DECORATION_DRAG;
-            EffectController.GetInstance().OnDecorationDrag();
         }
 
         public void SetSliderDrag()
@@ -43,7 +42,6 @@ public class GameInput : MonoBehaviour
         public void Clear()
         {
             state = State.NONE;
-            EffectController.GetInstance().Clear();
         }
     }
 
@@ -133,6 +131,7 @@ public class GameInput : MonoBehaviour
                 dummy_decor.transform.position = obj.transform.position;
                 dummy_decor.layer = 5;//UI layer
                 //obj.SetActive(false);
+                EffectController.GetInstance().OnDecorationDrag();
             }
             else if (obj.name.Contains("BPM"))
             {
@@ -279,6 +278,7 @@ public class GameInput : MonoBehaviour
                 }
 
                 //selection.SetActive(true);
+                EffectController.GetInstance().Clear();
                 break;
         }
         input_state.Clear();

@@ -15,8 +15,16 @@ public class InputManager : MonoBehaviour
     public void SetState(State s)
     {
         state = s;
-        if (state == State.MENU_INPUT) menu.SetActive(true);
-        else menu.SetActive(false);
+        if (state == State.MENU_INPUT)
+        {
+            menu.SetActive(true);
+            EffectController.GetInstance().OnEnterMenu();
+        }
+        else
+        {
+            menu.SetActive(false);
+            EffectController.GetInstance().Clear();
+        }
     }
 
     void DispatchEvent(Touch t)

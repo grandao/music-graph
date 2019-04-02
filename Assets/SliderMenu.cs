@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class SliderMenu : MonoBehaviour
 {
-    public GameObject button_prefab;
-    public string[] labels = new string[] { "A", "B", "C", "D", "E", "F", "G"};
     public int display_count = 5;
     public int draw_count = 7;
 
@@ -21,17 +19,28 @@ public class SliderMenu : MonoBehaviour
             child.gameObject.layer = layer;
     }
 
+    // Buttons are all child objects found
+    GameObject[] GetButtons()
+    {
+        List<GameObject> ret = new List<GameObject>();
+        foreach (Transform child in transform)
+        {
+            if (child != gameObject.transform && child.tag == "button")
+            {
+                ret.Add(child.gameObject);
+            }
+        }
+        return ret.ToArray();
+    }
+
 
     void Awake()
     {
-        buttons = new GameObject[labels.Length];
-        for (int i = 0; i < labels.Length; ++i)
-        {
-            buttons[i] = Instantiate(button_prefab, Vector3.zero, Quaternion.identity);
-            buttons[i].transform.parent = gameObject.transform;
-            SetLayer(gameObject.layer, buttons[i]);
-            buttons[i].GetComponentInChildren<TMPro.TextMeshPro>().text = labels[i];
+        buttons = GetButtons();
 
+        for (int i = 0; i < buttons.Length; ++i)
+        {
+            SetLayer(gameObject.layer, buttons[i]);
         }
     }
 
