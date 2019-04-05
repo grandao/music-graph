@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using System;
+using System.Linq;
 
 [RequireComponent(typeof(ChuckSubInstance))]
 public class GameController : MonoBehaviour
@@ -19,6 +20,8 @@ public class GameController : MonoBehaviour
     Scheduler scheduler;
 
     Node current;
+
+    System.Random rng = new System.Random();
 
 
     static GameController instance;
@@ -47,9 +50,10 @@ public class GameController : MonoBehaviour
                 ret = graph.GetRoot();
             else
             {
-                var en = edges.GetEnumerator();
-                en.MoveNext();
-                ret = graph.GetNode(en.Current);
+                if (edges.Count == 1)
+                    ret = graph.GetNode(edges.ElementAt(0));
+                else
+                    ret = graph.GetNode(edges.ElementAt(rng.Next(edges.Count)));
             }
             current = ret;
             
