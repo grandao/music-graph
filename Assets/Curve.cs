@@ -85,7 +85,7 @@ public class Curve : MonoBehaviour
             {
                 //particle is in local space which points towards +z
                 if (particles[i].position.z > scale)
-                    particles[i].lifetime = 0;
+                    particles[i].remainingLifetime = 0;
             }
 
             system.SetParticles(particles, count);
