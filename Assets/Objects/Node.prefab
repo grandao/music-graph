@@ -963,6 +963,36 @@ PrefabInstance:
       propertyPath: NoiseModule.scrollSpeed.scalar
       value: 2.53
       objectReference: {fileID: 0}
+    - target: {fileID: 659791716326319163, guid: 983b2ec0d589fb146b01f3d6c9788c77,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 4.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 659791716326319163, guid: 983b2ec0d589fb146b01f3d6c9788c77,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.23
+      objectReference: {fileID: 0}
+    - target: {fileID: 659791716326319163, guid: 983b2ec0d589fb146b01f3d6c9788c77,
+        type: 3}
+      propertyPath: startDelay.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 659791716326319163, guid: 983b2ec0d589fb146b01f3d6c9788c77,
+        type: 3}
+      propertyPath: ShapeModule.arc.spread
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 659791716326319163, guid: 983b2ec0d589fb146b01f3d6c9788c77,
+        type: 3}
+      propertyPath: ShapeModule.radiusThickness
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 659791716326319163, guid: 983b2ec0d589fb146b01f3d6c9788c77,
+        type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 1.46
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 983b2ec0d589fb146b01f3d6c9788c77, type: 3}
 --- !u!4 &1305891244671409137 stripped
