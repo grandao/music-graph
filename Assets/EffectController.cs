@@ -53,6 +53,9 @@ public class EffectController : MonoBehaviour
     Bloom menu_bloom;
     DepthOfField deco_blur;
 
+    Node active_node;
+    Node next_node;
+
     public static EffectController GetInstance()
     {
         return instance;
@@ -81,6 +84,15 @@ public class EffectController : MonoBehaviour
                 transition = null;
             
         }
+
+        if (next_node != null && active_node != next_node)
+        {
+            active_node?.gameObject.transform.Find("bg_fx").gameObject.SetActive(false);
+            active_node = next_node;
+
+            active_node.gameObject.transform.Find("bg_fx").gameObject.SetActive(true);
+            next_node = null;
+        }
     }
 
     public void OnDecorationDrag()
@@ -101,4 +113,10 @@ public class EffectController : MonoBehaviour
         deco_blur.active = false;
     }
 
+    public void OnActivateNode(Node node)
+    {
+        // this function is called outside main thread
+        // thus the logic which handles game objects was moved to Update()
+        next_node = node;
+    }
 }

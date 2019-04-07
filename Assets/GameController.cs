@@ -56,7 +56,9 @@ public class GameController : MonoBehaviour
                     ret = graph.GetNode(edges.ElementAt(rng.Next(edges.Count)));
             }
             current = ret;
-            
+
+            EffectController.GetInstance().OnActivateNode(current);
+
             return ret;
         });
     }
