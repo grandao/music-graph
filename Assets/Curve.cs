@@ -110,12 +110,16 @@ public class Curve : MonoBehaviour
         u = pa1 - pa0;
         v = pb1 - pb0;
 
-        float c = cross(u, v);
+        float det = cross(u, v);
 
-        if (Mathf.Abs(c) < 1e-6) return false;
+        if (Mathf.Abs(det) < 1e-6) return false;
 
-        float t = cross(pb1 - pa1, v) / c;
-
-        return t >= 0.0f && t <= 1.0f;
+        float t = cross(pb1 - pa1, v) / det;
+        if (t >= 0.0f && t <= 1.0f)
+        {
+            float t2 = cross(pb1 - pa1, u) / -det;
+            return t2 >= 0.0f && t2 <= 1.0f;
+        }
+        return false;
     }
 }
