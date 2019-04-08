@@ -137,6 +137,11 @@ public class GameInput : MonoBehaviour
             {
                 obj.GetComponent<BpmController>().Click();
             }
+            else if (obj.name.Contains("Play"))
+            {
+                obj.GetComponent<PlayController>().Click();
+                Debug.Log("Play hit");
+            }
             else if (isNode(obj)) input_state.SetNodeSelect();
             else input_state.Clear();
         }

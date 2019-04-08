@@ -177,6 +177,16 @@ public class GameController : MonoBehaviour
     {
         scheduler.UpdateBPM(bpm);
     }
+
+    public void Play()
+    {
+        scheduler.StartTick();
+    }
+
+    public void Pause()
+    {
+        scheduler.StopTick();
+    }
 }
 
 
@@ -278,6 +288,8 @@ public class Scheduler
     int ticks = 0;
     int next = 0;
 
+    bool is_ticking = false;
+
     DecorationStyleScheduler decor_sched;
 
     ChuckSubInstance instance;
@@ -348,12 +360,16 @@ public class Scheduler
     //Start event tick
     public void StartTick()
     {
+        if (is_ticking) return;
+
         instance.StartListeningForChuckEvent("notifier", callback);
+        is_ticking = true;
     }
 
     //Stop event tick
     public void StopTick()
     {
+        is_ticking = false;
         instance.StopListeningForChuckEvent("notifier", callback);
     }
 
