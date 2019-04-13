@@ -90,11 +90,9 @@ public class SliderMenu : MonoBehaviour
 
     public int Click(Vector2 p)
     {
-        Ray ray = Camera.main.ScreenPointToRay(p);
+        Ray ray = GameInput.ScreenToRay(p);
         RaycastHit hit;
         int layer_mask = LayerMask.GetMask(LayerMask.LayerToName(gameObject.layer));
-
-        ray.origin -= 100 * ray.direction;
 
         if (Physics.Raycast(ray, out hit, 1000, layer_mask))
             return System.Array.IndexOf(buttons, hit.collider.gameObject);

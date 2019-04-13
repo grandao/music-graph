@@ -56,6 +56,10 @@ public class GameInput : MonoBehaviour
     GameObject selection;
     GameObject drag;
 
+    //track move to discard unintentional small moves.
+    Vector2 opos;
+    float dist = 0;
+
     void Awake()
     {
         dummy_node = new GameObject();
@@ -77,7 +81,7 @@ public class GameInput : MonoBehaviour
         switch (t.phase)
         {
             case TouchPhase.Began:
-                Ray ray = Camera.main.ScreenPointToRay(t.position);
+                Ray ray = ScreenToRay(t.position);
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit))
                     selection = hit.transform.gameObject;
@@ -87,13 +91,21 @@ public class GameInput : MonoBehaviour
 
                 drag = selection;
 
+                opos = t.position;
+                dist = 0;
+
                 OnBegin(t, selection);
                 break;
             case TouchPhase.Moved:
-                if (drag != null)
-                    OnDrag(t, drag);
-                else
-                    OnMove(t);
+                dist += (t.position - opos).magnitude;
+                opos = t.position;
+                if (dist > 5)
+                {
+                    if (drag != null)
+                        OnDrag(t, drag);
+                    else
+                        OnMove(t);
+                }
                 break;
             case TouchPhase.Ended:
             case TouchPhase.Canceled:
@@ -111,7 +123,7 @@ public class GameInput : MonoBehaviour
             {
                 input_state.SetEdgeDrag();
 
-                Vector3 position = Camera.main.ScreenPointToRay(t.position).origin;
+                Vector3 position = ScreenToRay(t.position).origin;
                 position.z = 0;
 
                 dummy_edge.GetComponent<Edge>().origin = obj.transform.parent.GetComponent<Node>();
@@ -140,7 +152,6 @@ public class GameInput : MonoBehaviour
             else if (obj.name.Contains("Play"))
             {
                 obj.GetComponent<PlayController>().Click();
-                Debug.Log("Play hit");
             }
             else if (isNode(obj)) input_state.SetNodeSelect();
             else input_state.Clear();
@@ -151,7 +162,7 @@ public class GameInput : MonoBehaviour
 
     void OnDrag(Touch t, GameObject obj)
     {
-        Vector3 position = Camera.main.ScreenPointToRay(t.position).origin;
+        Vector3 position = ScreenToRay(t.position).origin;
         position.z = 0;
 
         switch (input_state.state)
@@ -181,8 +192,8 @@ public class GameInput : MonoBehaviour
     {
         //check if our move cuts an edge
         input_state.SetEdgeCut();
-        Vector2 p0 = Camera.main.ScreenPointToRay(t.position).origin;
-        Vector2 p1 = Camera.main.ScreenPointToRay(t.position - t.deltaPosition).origin;
+        Vector2 p0 = ScreenToRay(t.position).origin;
+        Vector2 p1 = ScreenToRay(t.position - t.deltaPosition).origin;
 
         var edges = GetComponent<GameController>().GetEdges();
         //Must use reverse iteration for removing elements
@@ -199,7 +210,7 @@ public class GameInput : MonoBehaviour
     void OnEnd(Touch t)
     {
         //Debug.Log(input_state.state);
-        Ray ray = Camera.main.ScreenPointToRay(t.position);
+        Ray ray = ScreenToRay(t.position);
         RaycastHit hit;
 
         switch (input_state.state)
@@ -319,5 +330,21 @@ public class GameInput : MonoBehaviour
         ret.z = pos.z;
 
         return ret;
+    }
+
+    public static Ray ScreenToRay(Vector2 pos)
+    {
+        Ray r = Camera.main.ScreenPointToRay(pos);
+
+        if (r.direction.z < 0)
+            r.direction = -r.direction;
+
+        float dz = r.direction.z;
+        float oz = r.origin.z;
+
+        float s = -(oz + 100) / dz;
+        r.origin = r.origin + s * r.direction;
+
+        return r;
     }
 }

@@ -76,21 +76,6 @@ public class InputManager : MonoBehaviour
 
         // Test save / load state 
 #if true
-        /*
-        bool save = Input.GetKeyDown(KeyCode.Space);
-        string name = null;
-        if (Input.GetKeyDown(KeyCode.Alpha1)) name = "graph1.xml";
-        else if (Input.GetKeyDown(KeyCode.Alpha2)) name = "graph2.xml";
-        else if (Input.GetKeyDown(KeyCode.Alpha3)) name = "graph3.xml";
-        else if (Input.GetKeyDown(KeyCode.Alpha4)) name = "graph4.xml";
-
-        if (name != null)
-        {
-            if (save) GetComponent<GameController>().Save(name);
-            else GetComponent<GameController>().Load(name);
-        }
-        */
-
         if (Input.GetKeyDown(KeyCode.Alpha1)) GetComponent<GameController>().Save("graph.xml");
         else if (Input.GetKeyDown(KeyCode.Alpha2)) GetComponent<GameController>().Load("graph.xml");
 #endif
