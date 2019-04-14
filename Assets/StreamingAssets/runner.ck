@@ -51,7 +51,9 @@ public class Keyboard extends Chubgraph {
 
 
 
-Keyboard kb => dac;
+Keyboard kb => Gain g => dac;
+0.3 => g.gain;
+
 kb.load(me.dir() + "piano");
 
 0 => global int play;
