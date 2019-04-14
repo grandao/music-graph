@@ -82,7 +82,7 @@ public class GameSerializer
                                 nodes[id] = AddNode(position);
                                 current = nodes[id];
                                 var node = current.GetComponent<Node>();
-                                node.note = note;
+                                node.SetNote(note);
                                 node.duration = duration;
                             }
                             break;

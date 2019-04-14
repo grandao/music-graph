@@ -37,16 +37,12 @@ public class MenuInput : MonoBehaviour
                     if (id >= 0)
                     {
                         Node node = GetComponent<GameInput>().GetSelection().GetComponent<Node>();
-                        node.note = id;
-                        //Debug.Log(string.Format("----->Node set to {0}", id));
+                        node.SetNote(id);
                     }
                     else
                         GetComponent<InputManager>().SetState(InputManager.State.GAME_INPUT);
                 }
-                
-                //Debug.Log(string.Format("Got button {0}", id));
                 break;
         }
-        //Debug.Log(string.Format("Got button {0}", t.phase));
     }
 }

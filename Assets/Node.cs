@@ -11,25 +11,39 @@ public class Node : MonoBehaviour
     public int note = 0;
     public float duration = 1;
 
+    public GameObject[] note_labels;
+    GameObject label;
+
     //DecorationSocket reference for access outside the main thread
     public DecorationSocket socket;
 
     void Awake()
     {
         id = next_id++;
-        socket = gameObject.GetComponentInChildren<DecorationSocket>();
+        socket = gameObject.GetComponentInChildren<DecorationSocket>(); 
     }
 
 
     // Start is called before the first frame update
     void Start()
     {
-
+        SetNote(note);
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void SetNote(int i)
+    {
+        note = i;
+        if (note_labels != null)
+        {
+            if (label != null) Destroy(label);
+            if (note_labels[i])
+                label = Instantiate(note_labels[i], transform);
+        }
     }
 }
