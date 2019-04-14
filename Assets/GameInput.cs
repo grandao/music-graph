@@ -153,6 +153,10 @@ public class GameInput : MonoBehaviour
             {
                 obj.GetComponent<PlayController>().Click();
             }
+            else if (obj.name.Contains("Reload"))
+            {
+                GameController.GetInstance().Reload();
+            }
             else if (isNode(obj)) input_state.SetNodeSelect();
             else input_state.Clear();
         }

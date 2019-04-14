@@ -87,7 +87,8 @@ public class EffectController : MonoBehaviour
 
         if (next_node != null && active_node != next_node)
         {
-            active_node?.gameObject.transform.Find("bg_fx").gameObject.SetActive(false);
+            if (active_node != null)
+                active_node.gameObject.transform.Find("bg_fx").gameObject.SetActive(false);
             active_node = next_node;
 
             active_node.gameObject.transform.Find("bg_fx").gameObject.SetActive(true);

@@ -187,6 +187,13 @@ public class GameController : MonoBehaviour
     {
         scheduler.StopTick();
     }
+
+    public void Reload()
+    {
+        Clear();
+        current = CreateNode(new Vector3(-2, 2, 0)).GetComponent<Node>();
+        Start();
+    }
 }
 
 
