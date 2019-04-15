@@ -157,6 +157,15 @@ public class GameInput : MonoBehaviour
             {
                 GameController.GetInstance().Reload();
             }
+            else if (obj.name.Equals("Help"))
+            {
+                obj.GetComponent<HelpController>().Enable();
+                Debug.Log("click help");
+            }
+            else if (obj.name.Contains("HelpPlane"))
+            {
+                obj.transform.parent.gameObject.GetComponent<HelpController>().Next();
+            }
             else if (isNode(obj))
             {
                 input_state.SetNodeSelect();
