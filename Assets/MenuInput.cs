@@ -38,6 +38,7 @@ public class MenuInput : MonoBehaviour
                     {
                         Node node = GetComponent<GameInput>().GetSelection().GetComponent<Node>();
                         node.SetNote(id);
+                        GetComponent<InputManager>().menu.GetComponent<SliderMenu>().SetSelected(id);
                     }
                     else
                         GetComponent<InputManager>().SetState(InputManager.State.GAME_INPUT);

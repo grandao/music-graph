@@ -62,7 +62,7 @@ public class SliderMenu : MonoBehaviour
 
         py -= dp.y % d;
 
-        Deactivate();
+        //Deactivate();
 
         for (int i = 0; i < draw_count; ++i)
         {
@@ -72,7 +72,7 @@ public class SliderMenu : MonoBehaviour
 
             int idx = (start + i) % buttons.Length;
             buttons[idx].transform.position = position;
-            buttons[idx].SetActive(true);
+            //buttons[idx].SetActive(true);
         }
     }
 
@@ -98,5 +98,11 @@ public class SliderMenu : MonoBehaviour
             return System.Array.IndexOf(buttons, hit.collider.gameObject);
 
         return -1;
+    }
+
+    public void SetSelected(int id)
+    {
+        for (int i = 0; i < buttons.Length; ++i)
+            buttons[i].transform.Find("fx").gameObject.SetActive(i == id);
     }
 }
