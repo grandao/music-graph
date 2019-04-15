@@ -12,6 +12,10 @@ public class InputManager : MonoBehaviour
     bool drag = false;
     public GameObject menu;
 
+    float lastEventTime;
+
+    public const float MAX_INACTIVITY = 60 * 3;
+
     public void SetState(State s)
     {
         state = s;
@@ -29,6 +33,7 @@ public class InputManager : MonoBehaviour
 
     void DispatchEvent(Touch t)
     {
+        lastEventTime = Time.realtimeSinceStartup;
         switch (state)
         {
             case State.GAME_INPUT:
@@ -43,12 +48,19 @@ public class InputManager : MonoBehaviour
     void Start()
     {
         SetState(State.GAME_INPUT);
+        lastEventTime = Time.realtimeSinceStartup;
     }
 
     void Update()
     {
         for (int i = 0; i < Input.touchCount; ++i)
             DispatchEvent(Input.GetTouch(i));
+
+        if ((Time.realtimeSinceStartup - lastEventTime) > MAX_INACTIVITY)
+        {
+            lastEventTime = Time.realtimeSinceStartup;
+            GameController.GetInstance().Reload();
+        }
 
 
 #if true
