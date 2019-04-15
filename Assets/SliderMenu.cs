@@ -11,6 +11,7 @@ public class SliderMenu : MonoBehaviour
     GameObject[] buttons;
 
     Vector2 dp = Vector2.zero;
+    int d;
 
     void SetLayer(int layer, GameObject obj)
     {
@@ -42,13 +43,15 @@ public class SliderMenu : MonoBehaviour
         {
             SetLayer(gameObject.layer, buttons[i]);
         }
+
+        Rect r = Camera.main.pixelRect;
+        d = (int)r.height / display_count;
     }
 
     void Update()
     {
         Rect r = Camera.main.pixelRect;
-
-        int d = (int)r.height / display_count;
+        d = (int)r.height / display_count;
 
 
         float px = r.width / 2;
@@ -62,17 +65,13 @@ public class SliderMenu : MonoBehaviour
 
         py -= dp.y % d;
 
-        //Deactivate();
-
         for (int i = 0; i < draw_count; ++i)
         {
             Vector3 position = Camera.main.ScreenPointToRay(new Vector2(px, py + i * d)).origin;
-            //position is to close to the camera: text is clipped
             position.z = -3;
 
             int idx = (start + i) % buttons.Length;
             buttons[idx].transform.position = position;
-            //buttons[idx].SetActive(true);
         }
     }
 
@@ -104,5 +103,11 @@ public class SliderMenu : MonoBehaviour
     {
         for (int i = 0; i < buttons.Length; ++i)
             buttons[i].transform.Find("fx").gameObject.SetActive(i == id);
+    }
+
+    public void Centralized(int id)
+    {
+        dp.y = (id - draw_count / 2 - 0.5f) * d;
+        SetSelected(id);
     }
 }

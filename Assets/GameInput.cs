@@ -160,7 +160,7 @@ public class GameInput : MonoBehaviour
             else if (isNode(obj))
             {
                 input_state.SetNodeSelect();
-                GetComponent<InputManager>().menu.GetComponent<SliderMenu>().SetSelected(obj.GetComponent<Node>().note);
+                GetComponent<InputManager>().menu.GetComponent<SliderMenu>().Centralized(obj.GetComponent<Node>().note);
             }
             else input_state.Clear();
         }
