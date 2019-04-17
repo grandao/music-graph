@@ -256,9 +256,16 @@ MonoBehaviour:
   materials:
   - {fileID: 2100000, guid: f078f4b9ddf5efa47a1eeeba0dcf05db, type: 2}
   - {fileID: 2100000, guid: e3cfe9642177d15478edcd69077cfd79, type: 2}
+  - {fileID: 2100000, guid: fa41453eba003394cb1b95c2a3d96d34, type: 2}
+  - {fileID: 2100000, guid: b37272c595d50d849a540dcfe9d8a749, type: 2}
+  - {fileID: 2100000, guid: 038bbc672d4ef8c44aa86bfd85f05963, type: 2}
   texts:
-  - Help text 1
-  - Help text 2
+  - Click on the node to select its note.
+  - Drag the green arrow to an empty space or another node to create an edge.
+  - Move the time slider to alter the note duration.
+  - Drag your finger through an edge to remove it. You can also delete a node by dragging
+    it to the screen border.
+  - Drag the hexagons to a node slot to change the play style.
 --- !u!135 &63628354
 SphereCollider:
   m_ObjectHideFlags: 0
