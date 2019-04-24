@@ -25,7 +25,7 @@ public class DecorationSocket : MonoBehaviour
         dec.gameObject.transform.parent = this.gameObject.transform;
         dec.gameObject.transform.localPosition = Vector3.zero;
         // on placement reduce mesh size
-        dec.gameObject.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
+        dec.gameObject.transform.localScale = dec.gameObject.transform.localScale / 1.8f;
 
         return true;
     }

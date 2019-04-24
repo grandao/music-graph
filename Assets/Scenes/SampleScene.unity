@@ -1114,7 +1114,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.088465646, g: 0.15678768, b: 0.26415092, a: 0}
+  m_BackGroundColor: {r: 0, g: 0.20411657, b: 0.5283019, a: 0}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
@@ -1603,6 +1603,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   decoration_prefab: {fileID: 4871241769698518387, guid: 1aa26efae01f5234ab1c373f90b4549b,
     type: 3}
+  materials:
+  - {fileID: 2100000, guid: dc6b3cb5a08df9947ae61ce872152b26, type: 2}
+  - {fileID: 2100000, guid: 3ec5bfb05633f0c498c3edbbaf102337, type: 2}
+  - {fileID: 2100000, guid: e424b334ff04f984a85c9d27f515e737, type: 2}
+  - {fileID: 2100000, guid: dd9aad673ca50ad4391a93e6d46b74e9, type: 2}
+  - {fileID: 2100000, guid: 4f4a9d3007ce9b142b895321382d8a88, type: 2}
+  - {fileID: 2100000, guid: dac77a6b31afd124fbeb543bf707fdc8, type: 2}
+  - {fileID: 2100000, guid: d2b017774e28452419e9849c2296ad7b, type: 2}
+  - {fileID: 2100000, guid: 2a335b7eaadb90d48adeb10dbef3335c, type: 2}
+  - {fileID: 2100000, guid: 88cc04f41ef0c414cabf5aa7cf440f2f, type: 2}
+  - {fileID: 2100000, guid: abedb5d67d8020d4dbcbcb1dd908dc83, type: 2}
+  - {fileID: 2100000, guid: ae6949cc7eb419b4eadb8dda2182ec3a, type: 2}
 --- !u!4 &613873885
 Transform:
   m_ObjectHideFlags: 0

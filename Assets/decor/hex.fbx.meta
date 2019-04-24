@@ -1,14 +1,22 @@
 fileFormatVersion: 2
-guid: 1a2e6f913be23f0488e998335f69593a
+guid: 31870584e2222bb4db2bd81499af7106
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2100000: Default OBJ
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: hex-button
+    100000: Camera
+    100002: //RootNode
+    100004: hexagon
+    100006: Light
+    400000: Camera
+    400002: //RootNode
+    400004: hexagon
+    400006: Light
+    2000000: Camera
+    2100000: No Name
+    2300000: hexagon
+    3300000: hexagon
+    4300000: hexagon
+    10800000: Light
   externalObjects: {}
   materials:
     importMaterials: 1
