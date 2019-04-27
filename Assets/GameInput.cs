@@ -56,6 +56,7 @@ public class GameInput : MonoBehaviour
     GameObject selection;
     GameObject drag;
 
+
     //track move to discard unintentional small moves.
     Vector2 opos;
     float dist = 0;
@@ -139,10 +140,11 @@ public class GameInput : MonoBehaviour
             {
                 input_state.SetDecorationDrag();
                 Decoration dec = obj.GetComponent<Decoration>();
-                dummy_decor = DecorationInstancer.Create(dec.type, dec.id);
+                dummy_decor = DecorationInstancer.GetInstance().Create(dec.type, dec.id);
                 dummy_decor.transform.position = obj.transform.position;
-                dummy_decor.layer = 5;//UI layer
-                //obj.SetActive(false);
+                dummy_decor.layer = 8;
+
+                obj.transform.parent.GetComponent<DecorationPallete>().SetLayer(8);
                 EffectController.GetInstance().OnDecorationDrag();
             }
             else if (obj.name.Contains("BPM"))
@@ -160,7 +162,7 @@ public class GameInput : MonoBehaviour
             else if (obj.name.Equals("Help"))
             {
                 obj.GetComponent<HelpController>().Enable();
-                Debug.Log("click help");
+                //Debug.Log("click help");
             }
             else if (obj.name.Contains("HelpPlane"))
             {
@@ -282,6 +284,7 @@ public class GameInput : MonoBehaviour
             case InputState.State.SLIDER_DRAG:
                 break;
             case InputState.State.DECORATION_DRAG:
+                selection.transform.parent.GetComponent<DecorationPallete>().SetLayer(0);
                 //Needed to avoid raycast on itself
                 dummy_decor.SetActive(false);
 
@@ -290,12 +293,13 @@ public class GameInput : MonoBehaviour
                     GameObject o = hit.transform.gameObject;
                     var socket = o.GetComponent<DecorationSocket>();
                     var decor = dummy_decor.GetComponent<Decoration>();
+                    dummy_decor.layer = 0;
                     if (socket != null)
                     {
                         if (socket.Set(decor))
                         {
                             dummy_decor.SetActive(true);
-                            Debug.Log("Decoration placed!");
+                            //Debug.Log(string.Format("Decoration placed({0})!", decor.id));
                         } else
                         {
                             Destroy(dummy_decor);

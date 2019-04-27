@@ -41,7 +41,7 @@ Transform:
   - {fileID: 2349538850919835085}
   - {fileID: 1305891244671409137}
   - {fileID: 6145107689657875554}
-  - {fileID: 6016894673035750546}
+  - {fileID: 5918043239330031371}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1080,6 +1080,11 @@ PrefabInstance:
       propertyPath: ShapeModule.radius.value
       value: 0.0001
       objectReference: {fileID: 0}
+    - target: {fileID: 659791716326319163, guid: 983b2ec0d589fb146b01f3d6c9788c77,
+        type: 3}
+      propertyPath: prewarm
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 983b2ec0d589fb146b01f3d6c9788c77, type: 3}
 --- !u!4 &1305891244671409137 stripped
@@ -1162,7 +1167,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f51482d14d2713f4587d2fbbba69e9e3, type: 3}
---- !u!4 &6016894673035750546 stripped
+--- !u!4 &5918043239330031371 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 117464310692137803, guid: f51482d14d2713f4587d2fbbba69e9e3,
     type: 3}

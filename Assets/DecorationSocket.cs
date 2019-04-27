@@ -26,6 +26,7 @@ public class DecorationSocket : MonoBehaviour
         dec.gameObject.transform.localPosition = Vector3.zero;
         // on placement reduce mesh size
         dec.gameObject.transform.localScale = dec.gameObject.transform.localScale / 1.8f;
+        //dec.gameObject.transform.localRotation *= Quaternion.Euler(0, 0, 30);
 
         return true;
     }
@@ -33,7 +34,7 @@ public class DecorationSocket : MonoBehaviour
     public bool Set(int id)
     {
         if (id > 0)
-            return Set(DecorationInstancer.Create(type, id).GetComponent<Decoration>());
+            return Set(DecorationInstancer.GetInstance().Create(type, id).GetComponent<Decoration>());
         return false;
     }
 }

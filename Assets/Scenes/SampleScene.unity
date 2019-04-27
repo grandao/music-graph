@@ -1329,6 +1329,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   decor_style_prefab: {fileID: 4871241769698518387, guid: 1aa26efae01f5234ab1c373f90b4549b,
     type: 3}
+  materials:
+  - {fileID: 2100000, guid: dc6b3cb5a08df9947ae61ce872152b26, type: 2}
+  - {fileID: 2100000, guid: 3ec5bfb05633f0c498c3edbbaf102337, type: 2}
+  - {fileID: 2100000, guid: e424b334ff04f984a85c9d27f515e737, type: 2}
+  - {fileID: 2100000, guid: dd9aad673ca50ad4391a93e6d46b74e9, type: 2}
+  - {fileID: 2100000, guid: 4f4a9d3007ce9b142b895321382d8a88, type: 2}
+  - {fileID: 2100000, guid: dac77a6b31afd124fbeb543bf707fdc8, type: 2}
+  - {fileID: 2100000, guid: d2b017774e28452419e9849c2296ad7b, type: 2}
+  - {fileID: 2100000, guid: 2a335b7eaadb90d48adeb10dbef3335c, type: 2}
+  - {fileID: 2100000, guid: 88cc04f41ef0c414cabf5aa7cf440f2f, type: 2}
+  - {fileID: 2100000, guid: abedb5d67d8020d4dbcbcb1dd908dc83, type: 2}
+  - {fileID: 2100000, guid: ae6949cc7eb419b4eadb8dda2182ec3a, type: 2}
 --- !u!114 &519420039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1583,7 +1595,7 @@ GameObject:
   m_Component:
   - component: {fileID: 613873885}
   - component: {fileID: 613873884}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: DecorationPallete
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1604,18 +1616,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   decoration_prefab: {fileID: 4871241769698518387, guid: 1aa26efae01f5234ab1c373f90b4549b,
     type: 3}
-  materials:
-  - {fileID: 2100000, guid: dc6b3cb5a08df9947ae61ce872152b26, type: 2}
-  - {fileID: 2100000, guid: 3ec5bfb05633f0c498c3edbbaf102337, type: 2}
-  - {fileID: 2100000, guid: e424b334ff04f984a85c9d27f515e737, type: 2}
-  - {fileID: 2100000, guid: dd9aad673ca50ad4391a93e6d46b74e9, type: 2}
-  - {fileID: 2100000, guid: 4f4a9d3007ce9b142b895321382d8a88, type: 2}
-  - {fileID: 2100000, guid: dac77a6b31afd124fbeb543bf707fdc8, type: 2}
-  - {fileID: 2100000, guid: d2b017774e28452419e9849c2296ad7b, type: 2}
-  - {fileID: 2100000, guid: 2a335b7eaadb90d48adeb10dbef3335c, type: 2}
-  - {fileID: 2100000, guid: 88cc04f41ef0c414cabf5aa7cf440f2f, type: 2}
-  - {fileID: 2100000, guid: abedb5d67d8020d4dbcbcb1dd908dc83, type: 2}
-  - {fileID: 2100000, guid: ae6949cc7eb419b4eadb8dda2182ec3a, type: 2}
 --- !u!4 &613873885
 Transform:
   m_ObjectHideFlags: 0
@@ -1624,7 +1624,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 613873883}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.25, y: -2.71, z: -1.48}
+  m_LocalPosition: {x: -8.25, y: -0.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
