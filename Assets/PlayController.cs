@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayController : MonoBehaviour
 {
-    bool toggle = false;
     GameObject bar;
     GameObject arrow;
     private void Awake()
@@ -21,24 +20,22 @@ public class PlayController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (GameController.GetInstance().IsPlaying())
+        {
+            bar.SetActive(true);
+            arrow.SetActive(false);
+        } else
+        {
+            bar.SetActive(false);
+            arrow.SetActive(true);
+        }
     }
 
     public void Click()
     {
-        if (toggle)
-        {
-            GameController.GetInstance().Play();
-            bar.SetActive(true);
-            arrow.SetActive(false);
-        }
-        else
-        {
+        if (GameController.GetInstance().IsPlaying())
             GameController.GetInstance().Pause();
-            bar.SetActive(false);
-            arrow.SetActive(true);
-        }
-
-        toggle = !toggle;
+        else
+            GameController.GetInstance().Play();
     }
 }

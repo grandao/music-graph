@@ -22,7 +22,7 @@ public class GameController : MonoBehaviour
     Node current;
 
     System.Random rng = new System.Random();
-
+    bool is_playing = false;
 
     static GameController instance;
 
@@ -61,6 +61,7 @@ public class GameController : MonoBehaviour
 
             return ret;
         });
+        is_playing = true;
     }
 
     // Update is called once per frame
@@ -181,11 +182,13 @@ public class GameController : MonoBehaviour
     public void Play()
     {
         scheduler.StartTick();
+        is_playing = true;
     }
 
     public void Pause()
     {
         scheduler.StopTick();
+        is_playing = false;
     }
 
     public void Reload()
@@ -193,6 +196,10 @@ public class GameController : MonoBehaviour
         Clear();
         current = CreateNode(new Vector3(-2, 2, 0)).GetComponent<Node>();
         Start();
+    }
+    public bool IsPlaying()
+    {
+        return is_playing;
     }
 }
 
