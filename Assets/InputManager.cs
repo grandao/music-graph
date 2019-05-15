@@ -13,8 +13,9 @@ public class InputManager : MonoBehaviour
     public GameObject menu;
 
     float lastEventTime;
+    bool inactivity = false;
 
-    public const float MAX_INACTIVITY = 60 * 3;
+    public const float MAX_INACTIVITY = 60;
 
     public void SetState(State s)
     {
@@ -43,6 +44,13 @@ public class InputManager : MonoBehaviour
                 GetComponent<MenuInput>()?.DispatchEvent(t);
                 break;
         }
+
+        // paused by inactivity & got an event
+        if (inactivity && !GameController.GetInstance().IsPlaying())
+        {
+            GameController.GetInstance().Play();
+        }
+        inactivity = false;
     }
 
     void Start()
@@ -56,10 +64,17 @@ public class InputManager : MonoBehaviour
         for (int i = 0; i < Input.touchCount; ++i)
             DispatchEvent(Input.GetTouch(i));
 
-        if ((Time.realtimeSinceStartup - lastEventTime) > MAX_INACTIVITY)
+        if (!inactivity && (Time.realtimeSinceStartup - lastEventTime) > MAX_INACTIVITY)
+        {
+            GameController.GetInstance().Pause();
+            inactivity = true;
+        }
+
+        if ((Time.realtimeSinceStartup - lastEventTime) > (2* MAX_INACTIVITY))
         {
             lastEventTime = Time.realtimeSinceStartup;
             GameController.GetInstance().Reload();
+            GameController.GetInstance().Pause();
         }
 
 
