@@ -14,6 +14,7 @@ public class InputManager : MonoBehaviour
 
     float lastEventTime;
     bool inactivity = false;
+    bool autoreset = false;
 
     public const float MAX_INACTIVITY = 60;
 
@@ -51,6 +52,7 @@ public class InputManager : MonoBehaviour
             GameController.GetInstance().Play();
         }
         inactivity = false;
+        autoreset = false;
     }
 
     void Start()
@@ -68,13 +70,15 @@ public class InputManager : MonoBehaviour
         {
             GameController.GetInstance().Pause();
             inactivity = true;
+            autoreset = true;
         }
 
-        if ((Time.realtimeSinceStartup - lastEventTime) > (2* MAX_INACTIVITY))
+        if (autoreset && (Time.realtimeSinceStartup - lastEventTime) > (2* MAX_INACTIVITY))
         {
             lastEventTime = Time.realtimeSinceStartup;
             GameController.GetInstance().Reload();
             GameController.GetInstance().Pause();
+            autoreset = false;
         }
 
 
