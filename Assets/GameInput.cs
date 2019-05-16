@@ -61,6 +61,10 @@ public class GameInput : MonoBehaviour
     Vector2 opos;
     float dist = 0;
 
+    // we should track touch to properly handle multi-touch
+    bool touch_began = false;
+    Touch last;
+
     void Awake()
     {
         dummy_node = new GameObject();
@@ -82,6 +86,9 @@ public class GameInput : MonoBehaviour
         switch (t.phase)
         {
             case TouchPhase.Began:
+                if (touch_began) { drag = null; OnEnd(last); }
+                touch_began = true;
+
                 Ray ray = ScreenToRay(t.position);
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit))
@@ -110,10 +117,12 @@ public class GameInput : MonoBehaviour
                 break;
             case TouchPhase.Ended:
             case TouchPhase.Canceled:
+                touch_began = false;
                 drag = null;
                 OnEnd(t);
                 break;
         }
+        last = t;
     }
 
     void OnBegin(Touch t, GameObject obj)
@@ -162,7 +171,6 @@ public class GameInput : MonoBehaviour
             else if (obj.name.Equals("Help"))
             {
                 obj.GetComponent<HelpController>().Enable();
-                //Debug.Log("click help");
             }
             else if (obj.name.Contains("HelpPlane"))
             {
